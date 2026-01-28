@@ -18,7 +18,7 @@
         <nav>
             <!-- Menu is a semantic alternative to <ul> that represents an interaction -->
             <menu>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="home.html">Home</a></li>
                 <li><a href="build.html">Build</a></li>
                 <li><a href="other_builds.html">Other Builds</a></li>
             </menu>
@@ -29,72 +29,22 @@
     </header>
 
     <main>
-        <div class="players">
-            Player:
-            <span class="player-name">Mystery player</span>
-        </div>
-        <ul class="notification">
-            <li class="player-name">Tim started a new game</li>
-            <li class="player-name">Ada started a new game</li>
-            <li class="player-name">Tim scored 337</li>
-        </ul>
-
-        <!-- More formatting with old style HTML -->
-        <br />
-
-        <div>
-            <label for="count">Score</label>
-            <input type="text" id="count" value="--" readonly />
-        </div>
-
-        <br />
-
-        <div>
-            <button>Reset</button>
-        </div>
-
-        <br />
-
-        <div>
-            <table>
-                <tr>
-                    <td>
-                        <button>
-                            <svg aria-hidden="true" viewBox="0 0 100 100" height="100" width="100">
-                                <!-- SVG
-                    M move <to x,y>
-                    Q quadratic curve <control point x,y> <to x,y>
-                -->
-                                <path d="M 95,5 95,95 5,95 Q 5,5 95,5" fill="green" />
-                            </svg>
-                        </button>
-                    </td>
-                    <td>
-                        <button>
-                            <svg aria-hidden="true" viewBox="0 0 100 100" height="100" width="100">
-                                <path d="M5,5 5,95 95,95 Q 95,5 5,5" fill="red" />
-                            </svg>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button>
-                            <svg aria-hidden="true" viewBox="0 0 100 100" height="100" width="100">
-                                <path d="M5,5 95,5 95,95 Q 5,95 5,5" fill="blue" />
-                            </svg>
-                        </button>
-                    </td>
-                    <td>
-                        <button>
-                            <svg aria-hidden="true" viewBox="0 0 100 100" height="100" width="100">
-                                <path d="M95,5 5,5 5,95 Q 95,95 95,5" fill="yellow" />
-                            </svg>
-                        </button>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <label for="class-select">Character Class:</label>
+        <select id="class-select" name="class">
+            <option value="">Select a class</option>
+            <option value="warrior">Warrior</option>
+            <option value="mage">Mage</option>
+            <option value="rogue">Rogue</option>
+        </select>
+        <br>
+        <label for="race-select">Character Race:</label>
+        <select id="race-select" name="race">
+            <option value="">Select a race</option>
+            <option value="human">Human</option>
+            <option value="elf">Elf</option>
+            <option value="dwarf">Dwarf</option>
+        </select>
+        <br>
     </main>
 
     <footer>
