@@ -53,3 +53,11 @@ Store authentication information, users, votes, and created characters in databa
 ### WebSocket
 <!-- How will you use WebSocket for real-time data? -->
  When characters are created, they will show up in a section where others can see them as well. As each user votes, their votes are updated to all other users and their accounts.
+
+# Startup HTML
+- Built out the Startup and Simon application with HTML files
+- Setup files for login, register, home, build, and other builds pages
+- Setup live notifications box for build gallery
+- Added a character building feature with a button and captions
+- Dropdown menus for home and building pages were created and a profile image was added for the gallery
+- Restructured the login flow to route to the home page first
