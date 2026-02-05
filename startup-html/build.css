@@ -9,3 +9,26 @@ body {
     min-height: 80vh;
     min-width: 1200px;
 }
+
+.build-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.build-sidebar {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+}
+
+.card.selectable-card {
+    cursor: pointer;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card.selectable-card.selected {
+    border-color: #1e4d2b;
+    box-shadow: 0 0 0 3px rgba(30, 77, 43, 0.35);
+}
