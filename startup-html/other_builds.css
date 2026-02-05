@@ -19,3 +19,7 @@ body {
     width: clamp(300px, 50%, 800px);
 }
 
+.card {
+    border-color: #d4af37;
+    border-width: 2px;
+}
