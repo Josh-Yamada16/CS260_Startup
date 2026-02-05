@@ -10,6 +10,18 @@ body {
     min-width: 1200px;
 }
 
+.nav-item {
+    color: #2c1810;
+}
+
+.nav-link {
+    color: #2c1810;
+}
+
+.nav-link.active {
+    background-color: #d4af37;
+}
+
 .notification-box {
     border: 2px solid #d4af37;
     border-radius: 8px;
