@@ -61,3 +61,11 @@ Store authentication information, users, votes, and created characters in databa
 - Added a character building feature with a button and captions
 - Dropdown menus for home and building pages were created and a profile image was added for the gallery
 - Restructured the login flow to route to the home page first
+
+# Startup CSS
+- Added new elements across pages, then iterated on layout, spacing, and class names.
+- Completed CSS styling for login/register, home, and builds pages; added responsive stacking for smaller viewports.
+- Adjusted nav colors, button colors, and other build section styling; added pagination color changes.
+- Added UI components like gallery rows and a notification box in the other builds section.
+- Added translucent card effects for future description areas.
+- Migrated simon-css from a submodule to a regular folder, and added assets and full site files
