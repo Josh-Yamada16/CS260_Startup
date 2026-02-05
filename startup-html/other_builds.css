@@ -35,3 +35,39 @@ body {
     border-color: #d4af37;
     border-width: 2px;
 }
+
+.pagination {
+    box-shadow: 0 6px 16px rgba(44, 24, 16, 0.2);
+}
+
+.page-link {
+    color: white;
+    border: 1px solid #d4af37;
+    background-color: #3a6b48;
+}
+
+.page-link.active {
+    background-color: #d4af37;
+    border-color: #d4af37;
+    color: white;
+}
+
+.pagination {
+    border-color: #d4af37;
+}
+
+.pagination .page-link {
+    color: white;
+    background-color: #1e4d2b;
+}
+
+.page-item.active .page-link {
+    background-color: #d4af37;
+    border-color: #d4af37;
+    color: #2c1810;
+}
+
+.page-link:hover {
+    background-color: #4f8c61;
+    color: white;
+}
