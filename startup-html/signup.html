@@ -11,39 +11,43 @@
     rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
     crossorigin="anonymous">
 
-    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="signup.css" />
 </head>
 
 <body>
-    <!-- Use header, main, and footer elements to give semantic structure -->
-    <header>
-    </header>
-
-    <main>
-        <h1>Welcome to DnD Character Builder</h1>
-        <form method="get" action="home.html">
-            <h5>Create your account.</h5>
-            <div class="mb-3">
-                <label for="exampleDropdownFormUsername" class="form-label">Username</label>
-                <input type="text" class="form-control" id="exampleDropdownFormUsername" placeholder="username" style="width: 40%">
-            </div>
-            <div class="mb-3">
-                <label for="exampleDropdownFormEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com" style="width: 40%">
-            </div>
-            <div class="mb-3">
-                <!-- put in functionality for being able to show/hide password -->
-                <label for="exampleDropdownFormPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password" style="width: 40%">
-            </div>
-            <div class="mb-3">
-                <label for="exampleDropdownFormPassword2" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Confirm Password" style="width: 40%">
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg">Register</button>
-            <a href="index.html">Already have an account?</a>
-        </form>
-    </main>
+    <div class="row">
+        <!-- left side -->
+        <div class="col-6 left">
+            <h1>Start Your Adventure Here</h1>
+            <p>Create and design your own D&D character or explore and be inspired by other awesome creations.</p>
+        </div>
+        <!-- right side -->
+        <div class="col-6 right">
+            <h1>Welcome to DnD Character Builder</h1>
+            <form method="get" action="home.html">
+                <h5>Create your account.</h5>
+                <div class="mb-3">
+                    <label for="exampleDropdownFormUsername" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="exampleDropdownFormUsername" placeholder="username" style="width: 40%">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleDropdownFormEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com" style="width: 40%">
+                </div>
+                <div class="mb-3">
+                    <!-- put in functionality for being able to show/hide password -->
+                    <label for="exampleDropdownFormPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password" style="width: 40%">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleDropdownFormPassword2" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Confirm Password" style="width: 40%">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                <a href="index.html">Already have an account?</a>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <hr />

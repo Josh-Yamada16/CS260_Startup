@@ -12,36 +12,42 @@
     rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
     crossorigin="anonymous">
 
-    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="index.css" />
 </head>
 
-<body>
-    <!-- Use header, main, and footer elements to give semantic structure -->
-    <header>
-    </header>
-
+<body class="login-page">
     <main>
-        <h1>Welcome to DnD Character Builder</h1>
-        <form method="get" action="home.html">
-            Don't have an account?
-            <a href="signup.html">Register</a>
-            <div class="mb-3">
-                <label for="exampleDropdownFormUsername" class="form-label">Username</label>
-                <input type="text" class="form-control" id="exampleDropdownFormUsername" placeholder="username" style="width: 50%">
+        <div class="row">
+            <!-- left side -->
+            <div class="col-6 left">
+                <h1>Start Your Adventure Here</h1>
+                <p>Create and design your own D&D character or explore and be inspired by other awesome creations.</p>
             </div>
-            <div class="mb-3">
-                <!-- add functionality for being able to show/hide password -->
-                <label for="exampleDropdownFormPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password" style="width: 50%">
+            <!-- right side -->
+            <div class="col-6 right">
+                <h1>Welcome to DnD Character Builder</h1>
+                <form method="get" action="home.html" style="line-height: 20px;">
+                    Don't have an account?
+                    <a href="signup.html">Register</a>
+                    <div class="mb-3">
+                        <label for="exampleDropdownFormUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="exampleDropdownFormUsername" placeholder="username" style="width: 50%">
+                    </div>
+                    <div class="mb-3">
+                        <!-- add functionality for being able to show/hide password -->
+                        <label for="exampleDropdownFormPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password" style="width: 50%">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                            <label class="form-check-label" for="dropdownCheck">Remember me</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                    <label class="form-check-label" for="dropdownCheck">Remember me</label>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg">Login</button>
-        </form>
+        </div>
     </main>
 
     <footer>
