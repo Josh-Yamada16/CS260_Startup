@@ -9,3 +9,12 @@ body {
     min-height: 80vh;
     min-width: 1200px;
 }
+
+.row {
+    padding-bottom: 10px;
+}
+
+.card {
+    border-color: #d4af37;
+    border-width: 2px;
+}

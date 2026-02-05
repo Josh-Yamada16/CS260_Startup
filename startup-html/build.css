@@ -10,6 +10,10 @@ body {
     min-width: 1200px;
 }
 
+.row {
+    padding-bottom: 10px;
+}
+
 .build-layout {
     display: grid;
     grid-template-columns: 220px 1fr;
