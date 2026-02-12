@@ -419,3 +419,6 @@ FodyWeavers.xsd
 
 # SSH Keys
 *.pem
+
+# Node Modules
+node_modules/
