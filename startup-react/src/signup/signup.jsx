@@ -1,7 +1,7 @@
 import React from "react";
 import './signup.css';
 
-export function Index() {
+export function Signup() {
     return (
         <main>
             <div className="row">
