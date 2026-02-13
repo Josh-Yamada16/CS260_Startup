@@ -69,3 +69,12 @@ Store authentication information, users, votes, and created characters in databa
 - Added UI components like gallery rows and a notification box in the other builds section.
 - Added translucent card effects for future description areas.
 - Migrated simon-css from a submodule to a regular folder, and added assets and full site files
+
+# Startup React P1
+- Converted static HTML pages into React components (JSX), enabling dynamic rendering and component reuse.
+- Replaced all class attributes with className for React compatibility.
+- Changed inline styles from string format to JavaScript object format (e.g., style={{margin: 0}}).
+- Updated label for attributes to htmlFor for React.
+- Self-closed input tags and other empty elements as required by JSX.
+- Modularized your code by splitting each page into its own component file, making your project more maintainable and scalable.
+- Set up a React project structure with src/ and public/ folders, and used ES6 imports.
