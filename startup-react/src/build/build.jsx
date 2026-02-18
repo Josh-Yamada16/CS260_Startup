@@ -1,5 +1,6 @@
 import React from "react";
 import './build.css';
+import { Link } from "react-router-dom";
 
 export function Build() {
     return (
@@ -321,9 +322,8 @@ export function Build() {
                     </div>
                 </div>
                 <div id="actions-section">
-                    <button type="button" className="btn btn-primary btn-lg" onClick={() => window.location.href = 'home.html'} style={{backgroundColor: '#1e4d2b'}}>Create Character</button>
-
-                    <button type="button" className="btn btn-outline-danger" onClick={() => window.location.href = 'build.html'}>Clear</button>
+                    <Link to="/home" className="btn btn-primary btn-lg" style={{backgroundColor: '#1e4d2b', width: '190px', marginRight: '10px'}}>Create Character</Link>
+                    <Link to="/build" className="btn btn-outline-danger" >Clear</Link>
                 </div>
             </div>
             </div>

@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, useLocation } from "react-router-dom";
 import './app.css';
 
-import { BrowserRouter, NavLink, Routes, Route } from 'react-router-dom';
+import { NavLink, Routes, Route, Navigate } from 'react-router-dom';
 import { Index } from './index/index';
 import { Home } from './home/home';
 import { Build } from './build/build';
 import { Other_Builds } from './other_builds/other_builds';
-import { use } from 'react';
+import { Signup } from './signup/signup';
 
 export default function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -19,7 +20,7 @@ export default function App() {
 
     function HeaderFooter(){
         return (
-            <div className='body bg-dark text-light'>
+            <div className='body'>
                 <header>
                     <h1>DnD Character Builder<sup></sup></h1>
     
@@ -45,23 +46,24 @@ export default function App() {
 
     function AppContent() {
         const pathname = usePageLocation();
-        const hideHeader = pathname === '/index' || pathname === '/register';
+        const showHeader = ['/home', '/build', '/other_builds'].includes(pathname);
         return (
-            <div className={hideHeader ? "d-none" : ""}>
-                {isAuthenticated && !hideHeader && <HeaderFooter />}
+            <div>
+                {showHeader && <HeaderFooter />}
                 <Routes>
+                    <Route path="/" element={<Navigate to="/index" replace />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/build" element={<Build />} />
                     <Route path="/other_builds" element={<Other_Builds />} />
                     <Route path="/index" element={<Index setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path="/signup" element={<Signup setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
 
-                <footer className="bg-dark text-white-50">
-                <div className="container-fluid">
-                    <span className="text-reset">Josh Yamada</span>
-                    <a className="text-reset" href="https://github.com/webprogramming260/simon-css">Source</a>
-                </div>
+                <footer>
+                    <div className="container-fluid">
+                        <a href="https://github.com/josh-yamada" className="text-reset">GitHub Josh Yamada</a>
+                    </div>
                 </footer>
             </div>
         );
@@ -71,12 +73,13 @@ export default function App() {
         <BrowserRouter>
             <AppContent />
         </BrowserRouter>
-    )
-    
+    );
 }
 
 function NotFound() {
-    return ( <main className='container-fluid bg-secondary text-center'>
-        404: Return to sender. Address unknown.
-    </main> );
+    return (
+        <main className='container-fluid bg-secondary text-center'>
+            404: Return to sender. Address unknown.
+        </main>
+    );
 }

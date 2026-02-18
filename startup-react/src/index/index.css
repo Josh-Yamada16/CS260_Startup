@@ -5,9 +5,9 @@
     border-radius: 4px;
 }
 
-body {
-    margin: 0;
-    padding: 0;
+main {
+    margin: 0 !important;
+    padding: 0 !important;
     font-family: Arial;
     background-color: #f4e8d0;
     color: #2c1810;
@@ -22,13 +22,13 @@ body.login-page {
     overflow: hidden;
 }
 
-.row {
+main .row {
     display: flex;
     width: 100%;
 }
 
-.col-6.left {
-    width: 50vw;
+main .col-6.left {
+    width: 48vw;
     background-color: #1e4d2b;
     padding: 90px 100px 10% 50px; 
     color: white;
@@ -45,7 +45,7 @@ body.login-page {
 }
 
 .col-6.right {
-    width: 50vw;
+    width: 52vw;
     padding: 90px 100px 10% 50px;
     background-color: #8b7355;
     padding: 50px;

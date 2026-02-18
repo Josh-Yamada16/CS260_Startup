@@ -1,5 +1,6 @@
 import React from "react";
 import './home.css';
+import { Link } from "react-router-dom";
 
 export function Home() {
     return (
@@ -63,12 +64,12 @@ export function Home() {
                             <span className="placeholder col-7"></span>
                             <span className="placeholder col-4"></span>
                         </p>
-                        <a href="#" tabindex="-1" className="btn btn-primary disabled placeholder col-6" style={{backgroundColor: '#1e4d2b'}}></a>
+                        <a href="#" tabIndex="-1" className="btn btn-primary disabled placeholder col-6" style={{backgroundColor: '#1e4d2b'}}></a>
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="button" className="btn btn-primary btn-lg" onClick={() => window.location.href = 'build.html'} style={{backgroundColor: '#1e4d2b'}}>Create new Character</button>
+            <Link to="/build" className="btn btn-primary btn-lg" style={{backgroundColor: '#1e4d2b', width: '250px'}}>Create New Character</Link>
         </main>
     );
 }
