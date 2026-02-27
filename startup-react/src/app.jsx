@@ -19,6 +19,14 @@ export default function App() {
     }
 
     function HeaderFooter(){
+        const navigate = useNavigate();
+
+        function handleLogout(e) {
+            e.preventDefault();
+            localStorage.removeItem('userName');
+            navigate('/authPage');
+        }
+
         return (
             <div className='body'>
                 <header>
@@ -26,7 +34,7 @@ export default function App() {
     
                     <ul className="nav nav-tabs">
                         <li className="nav-item">
-                            <NavLink className="nav-link active" aria-current="page" to="/home">Home</NavLink>
+                            <NavLink className="nav-link" aria-current="page" to="/home">Home</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/build">Build</NavLink>
@@ -35,7 +43,7 @@ export default function App() {
                             <NavLink className="nav-link" to="/other_builds">Other Builds</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/index">Logout</NavLink>
+                            <a className="nav-link" href="/authPage" onClick={handleLogout}>Logout</a>
                         </li>
                     </ul>
                     <hr />
@@ -51,7 +59,7 @@ export default function App() {
             <div>
                 {showHeader && <HeaderFooter />}
                 <Routes>
-                    <Route path="/" element={<Navigate to="/index" replace />} />
+                    <Route path="/" element={<Navigate to="/authPage" replace />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/build" element={<Build />} />
                     <Route path="/other_builds" element={<Other_Builds />} />
