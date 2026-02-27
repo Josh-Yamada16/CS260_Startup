@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './buildsGallery.css'; // Use your existing styles
+import './buildsGallery.css';
+import { CardGallery } from './CardGallery';
 
 export function BuildsGallery() {
     const [builds, setBuilds] = useState([]);
@@ -32,14 +33,12 @@ export function BuildsGallery() {
 
     // placeholder card JSX
     const placeholderCard = (
-        <div className="col">
-            <div className="card" aria-hidden="true">
-                <svg className="card-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <div className="card" aria-hidden="true">
+            <svg className="card-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
                 <title>Placeholder</title>
                 <rect width="100%" height="100%" fill="#1e4d2b"></rect>
-                </svg>
-
-                <div className="card-body">
+            </svg>
+            <div className="card-body">
                 <div className="h5 card-title placeholder-glow">
                     <span className="placeholder col-6"></span>
                 </div>
@@ -48,35 +47,37 @@ export function BuildsGallery() {
                     <span className="placeholder col-4"></span>
                 </p>
                 <a href="#" tabIndex="-1" className="btn btn-primary disabled placeholder col-6" style={{backgroundColor: '#1e4d2b'}}></a>
-                </div>
             </div>
         </div>
-    )
+    );
 
     return (
-        <div className='row row-cols-2 row-cols-md-3 row-cols-lg-6 g-4'>
-            {loading
-                ? Array(4).fill(0).map((_, idx) => <React.Fragment key={idx}>{placeholderCard}</React.Fragment>)
-                : builds.map((build, idx) => (
-                    <div className='col' key={build.id || idx}>
-                        <div className='card'>
-                            <div className='card-img-wrapper'>
-                                <div className='card-overlay'>
-                                    <p className='card-description'> {build.description}</p>
-                                </div>
-                            </div>
-                            {/* Uncomment below when using API with image/link */}
-                            {/* <img src={build.imageUrl} alt={build.title} className='card-img-top' /> */}
-                            <div className='card-body'>
-                                <h5 className='card-title'>{build.name}</h5>
-                                {/* <a href={build.link} className='btn btn-primary'>Learn more</a> */}
-                                <a href="#" className='btn btn-primary'>Learn more</a>
+        loading ? (
+            <CardGallery
+                items={Array(4).fill(0)}
+                renderCard={() => placeholderCard}
+            />
+        ) : (
+            <CardGallery
+                items={builds}
+                renderCard={build => (
+                    <div className='card'>
+                        <div className='card-img-wrapper'>
+                            <div className='card-overlay'>
+                                <p className='card-description'>{build.description}</p>
                             </div>
                         </div>
+                        {/* Uncomment below when using API with image/link */}
+                        {/* <img src={build.imageUrl} alt={build.title} className='card-img-top' /> */}
+                        <div className='card-body'>
+                            <h5 className='card-title'>{build.name}</h5>
+                            {/* <a href={build.link} className='btn btn-primary'>Learn more</a> */}
+                            <a href="#" className='btn btn-primary'>Learn more</a>
+                        </div>
                     </div>
-                ))
-            }
-        </div>
+                )}
+            />
+        )
     );
 }
 

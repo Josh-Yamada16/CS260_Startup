@@ -1,7 +1,7 @@
 import React from "react";
 import './other_builds.css';
 import { BuildNotifications } from "./buildNotifications";
-import { BuildsGallery } from "./buildsGallery.jsx";
+import { BuildsGallery } from "../shared/buildsGallery.jsx";
 
 export function Other_Builds(props) {
     return (
