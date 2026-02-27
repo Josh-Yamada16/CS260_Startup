@@ -62,7 +62,7 @@ export default function App() {
                     <Route path="/" element={<Navigate to="/authPage" replace />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/build" element={<Build />} />
-                    <Route path="/other_builds" element={<Other_Builds />} />
+                    <Route path="/other_builds" element={<Other_Builds username={localStorage.getItem('userName')} />} />
                     <Route path="/authPage" element={<AuthPage setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>

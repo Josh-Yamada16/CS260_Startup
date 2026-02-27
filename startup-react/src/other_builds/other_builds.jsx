@@ -1,13 +1,14 @@
 import React from "react";
 import './other_builds.css';
+import { Players } from "./players";
 
-export function Other_Builds() {
+export function Other_Builds(props) {
     return (
         <main>
             <section className="notifications">
                 <h2>Live Notifications</h2>
                 <div className="notification-box" id="notificationBox">
-                    <p>Waiting for new character builds...</p>
+                    <Players userName={props.userName} />
                 </div>
             </section>
             <br />
