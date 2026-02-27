@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './buildsGallery.css';
-import { CardGallery } from './CardGallery';
+import { CardGallery } from './cardGallery';
 
 export function BuildsGallery() {
     const [builds, setBuilds] = useState([]);
