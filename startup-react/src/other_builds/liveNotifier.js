@@ -1,7 +1,6 @@
-const GameEvent = {
+const CreationEvent = {
   System: 'system',
-  End: 'gameEnd',
-  Start: 'gameStart',
+  Created: 'created'
 };
 
 class EventMessage {
@@ -19,11 +18,10 @@ class GameEventNotifier {
   constructor() {
     // Simulate chat messages that will eventually come over WebSocket
     setInterval(() => {
-      const score = Math.floor(Math.random() * 3000);
       const date = new Date().toLocaleDateString();
       const userName = 'Eich';
-      this.broadcastEvent(userName, GameEvent.End, { name: userName, score: score, date: date });
-    }, 5000);
+      this.broadcastEvent(userName, CreationEvent.Created, { name: userName, date: date });
+    }, 2500);
   }
 
   broadcastEvent(from, type, value) {
@@ -36,7 +34,7 @@ class GameEventNotifier {
   }
 
   removeHandler(handler) {
-    this.handlers.filter((h) => h !== handler);
+    this.handlers = this.handlers.filter((h) => h !== handler);
   }
 
   receiveEvent(event) {
@@ -49,4 +47,4 @@ class GameEventNotifier {
 }
 
 const GameNotifier = new GameEventNotifier();
-export { GameEvent, GameNotifier };
+export { CreationEvent, GameNotifier };
