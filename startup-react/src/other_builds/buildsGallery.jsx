@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import 'buildsGallery.css'; // Use your existing styles
+import './buildsGallery.css'; // Use your existing styles
 
-function BuildsGallery() {
+export function BuildsGallery() {
     const [builds, setBuilds] = useState([]);
     const [loading, setLoading] = useState(true);
 

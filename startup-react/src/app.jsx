@@ -77,9 +77,11 @@ export default function App() {
     }
 
     return (
-        <BrowserRouter>
-            <AppContent />
-        </BrowserRouter>
+        <div className='app-container'>
+            <BrowserRouter>
+                <AppContent />
+            </BrowserRouter>
+        </div>
     );
 }
 

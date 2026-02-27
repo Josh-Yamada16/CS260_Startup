@@ -35,7 +35,6 @@ body {
     background-color: #d4af37;
 }
 
-
 .notification-container {
     position: fixed;
     top: 20px;
@@ -62,6 +61,17 @@ body {
         top: 10px;
         width: 90vw;
         max-width: 95vw;
+    }
+}
+
+.gallery-container {
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+    .gallery-container {
+        max-width: calc(100vw - 340px);
+        margin-right: 340px;
     }
 }
 
