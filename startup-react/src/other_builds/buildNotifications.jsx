@@ -47,7 +47,6 @@ export function BuildNotifications() {
 
   return (
     <div className='players'>
-      <span className='player-name'>{userName}</span>
       <div id='player-messages'>{createMessageArray()}</div>
     </div>
   );
