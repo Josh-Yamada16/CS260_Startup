@@ -3,12 +3,10 @@ import './build.css';
 import { Link } from "react-router-dom";
 import { CardRow } from "../shared/cardRow";
 
-// Example data for classes
 const classOptions = [
   { id: 1, name: 'Fighter', description: 'A strong melee combatant.' },
   { id: 2, name: 'Wizard', description: 'A master of arcane magic.' },
   { id: 3, name: 'Rogue', description: 'A stealthy and agile character.' },
-  // ...more options
 ];
 
 const raceOptions = [
