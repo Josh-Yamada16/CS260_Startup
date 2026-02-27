@@ -164,7 +164,7 @@ export function Build() {
                                 <span className="placeholder col-7"></span>
                                 <span className="placeholder col-4"></span>
                             </p>
-                            <a href="#" tabindex="-1" className="btn btn-primary disabled placeholder col-6" style={{backgroundColor: '#1e4d2b'}}></a>
+                            <a href="#" tabIndex="-1" className="btn btn-primary disabled placeholder col-6" style={{backgroundColor: '#1e4d2b'}}></a>
                             </div>
                         </div>
                     </div>
@@ -240,7 +240,7 @@ export function Build() {
                                 <span className="placeholder col-7"></span>
                                 <span className="placeholder col-4"></span>
                             </p>
-                            <a href="#" tabindex="-1" className="btn btn-primary disabled placeholder col-6" style={{backgroundColor: '#1e4d2b'}}></a>
+                            <a href="#" tabIndex="-1" className="btn btn-primary disabled placeholder col-6" style={{backgroundColor: '#1e4d2b'}}></a>
                             </div>
                         </div>
                     </div>
@@ -316,7 +316,7 @@ export function Build() {
                                 <span className="placeholder col-7"></span>
                                 <span className="placeholder col-4"></span>
                             </p>
-                            <a href="#" tabindex="-1" className="btn btn-primary disabled placeholder col-6" style={{backgroundColor: '#1e4d2b'}}></a>
+                            <a href="#" tabIndex="-1" className="btn btn-primary disabled placeholder col-6" style={{backgroundColor: '#1e4d2b'}}></a>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './authenticated.css'; // Use your existing styles
+import './authPage.css'; // Use your existing styles
 
 const AuthForm = ({ onAuth }) => {
   const [isSignup, setIsSignup] = useState(false);
@@ -24,7 +24,7 @@ const AuthForm = ({ onAuth }) => {
     }
     setError('');
     // Call parent handler with form data and mode
-    onAuth({ ...form, mode: isSignup ? 'signup' : 'login' });
+    onAuth({ ...form, mode: isSignup ? 'signup' : 'login'/*, authToken*/ });
   };
 
   return (
@@ -35,21 +35,6 @@ const AuthForm = ({ onAuth }) => {
           : <>Don't have an account? <a href="#" style={{ color: '#d4af37' }} onClick={() => setIsSignup(true)}>Register</a></>
         }
       </p>
-      {isSignup && (
-        <div className='mb-3'>
-          <label className='form-label' style={{ fontSize: '20px', margin: '0' }}>Enter your Name;</label>
-          <input
-            type='text'
-            className='form-control'
-            name='name'
-            placeholder='Name'
-            value={form.name}
-            onChange={handleChange}
-            style={{ width: '50%'}}
-            required
-          />
-        </div>
-      )}
       <div className='mb-3'>
         <label className='form-label' htmlFor='username' style={{ fontSize: '20px', margin: '0' }}>Enter a Username:</label>
         <input
@@ -116,21 +101,6 @@ const AuthForm = ({ onAuth }) => {
           />
         </div>
       )}
-      <div className='mb-3'>
-        <div className='form-check'>
-          <input
-            type='checkbox'
-            className='form-check-input'
-            id='dropdownCheck'
-            name='remember'
-            checked={form.remember}
-            onChange={handleChange}
-          />
-          <label className='form-check-label' htmlFor='dropdownCheck' style={{ fontSize: '14px', margin: '0' }}>
-            Remember me
-          </label>
-        </div>
-      </div>
       {error && <div className='error' style={{ color: 'red' }}>{error}</div>}
       <button type='submit' className='btn btn-primary'>
         {isSignup ? 'Sign Up' : 'Log In'}

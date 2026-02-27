@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, useLocation } from "react-router-dom";
+import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import './app.css';
 
 import { NavLink, Routes, Route, Navigate } from 'react-router-dom';
-import { Index } from './index/index';
+import { AuthPage } from './authPage/authPage';
 import { Home } from './home/home';
 import { Build } from './build/build';
 import { Other_Builds } from './other_builds/other_builds';
@@ -63,8 +63,7 @@ export default function App() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/build" element={<Build />} />
                     <Route path="/other_builds" element={<Other_Builds />} />
-                    <Route path="/index" element={<Index setIsAuthenticated={setIsAuthenticated} />} />
-                    <Route path="/signup" element={<Signup setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path="/authPage" element={<AuthPage setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
 

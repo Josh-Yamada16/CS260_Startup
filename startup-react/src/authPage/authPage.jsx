@@ -1,14 +1,16 @@
 import React from "react";
 import './authPage.css';
 import { useNavigate } from "react-router-dom";
-import AuthForm from "./AuthForm";
+import AuthForm from "./authForm";
 
-export function Index() {
+export function AuthPage() {
     const navigate = useNavigate();
 
-    function handleAuth({ username, password, name, mode }) {
+    function handleAuth({ username, password, name, mode, authToken }) {
         // Here you would normally handle login/signup logic (validation, API call, etc.)
         // For now, just redirect to /home
+        localStorage.setItem('userName', username);
+        // localStorage.setItem('authToken', authToken); // Store the token for future authenticated requests
         navigate('/home');
     }
 
