@@ -78,3 +78,15 @@ Store authentication information, users, votes, and created characters in databa
 - Self-closed input tags and other empty elements as required by JSX.
 - Modularized your code by splitting each page into its own component file, making your project more maintainable and scalable.
 - Set up a React project structure with src/ and public/ folders, and used ES6 imports.
+
+# Startup React P2: Reactivity
+- Fixed login page layout so columns display side by side and stack responsively on smaller screens.
+- Finished card rows for the build component, added hardcoded options for now, and improved selection logic.
+- Made card gallery a general component for use in home, build, and other builds; moved buildsGallery to shared for reuse.
+- Fixed notification box positioning and updated build gallery layout for better UI.
+- Enabled dynamic loading of build cards, with placeholder loading cards and support for fetching from an endpoint.
+- Added hover descriptions to build cards for improved UX.
+- Implemented notification box in other builds component with live message display and aesthetics.
+- Added live notifications functionality to the other builds page.
+- Combined login and register pages into a single, modular authentication component.
+- Improved authentication page modularity, placing login and register boxes within the same component.
