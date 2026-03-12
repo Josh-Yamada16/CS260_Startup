@@ -1,10 +1,13 @@
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
+const authCookieName = 'token';
 
 app.use(express.json());
+app.use(cookieParser());
+app.use(express.static('public'));
 
 let users = [];
 let scores = [];
