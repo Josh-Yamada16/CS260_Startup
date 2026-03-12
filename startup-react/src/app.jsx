@@ -23,8 +23,17 @@ export default function App() {
 
         function handleLogout(e) {
             e.preventDefault();
-            localStorage.removeItem('userName');
-            navigate('/authPage');
+            fetch('/api/auth/logout', {
+            method: 'DELETE',
+            })
+            .catch(() => {
+                // Logout failed. Assuming offline
+            })
+            .finally(() => {
+                localStorage.removeItem('userName');
+                setIsAuthenticated(false);
+                navigate('/authPage');
+            });
         }
 
         return (
