@@ -25,6 +25,14 @@ export function Unauthenticated(props) {
     }
   }
 
+  async function loginUser() {
+    loginOrCreate('/api/auth/login');
+  }
+
+  async function createUser() {
+    loginOrCreate('/api/auth/create');
+  }
+
 
   return (
     <>
