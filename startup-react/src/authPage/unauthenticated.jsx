@@ -8,14 +8,46 @@ export function Unauthenticated(props) {
   const [password, setPassword] = React.useState('');
   const [displayError, setDisplayError] = React.useState(null);
 
+  async function login(endpoint) {
+    const response = await fetch(endpoint, {
+      method: 'POST', 
+      body: JSON.stringify({ userName: userName, password: password }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    });
+    if (response?.status === 200) {
+      localStorage.setItem('userName', userName);
+      props.onLogin(userName);
+    } else {
+      const body = await response.json();
+      setDisplayError(`⚠ Error: ${body.msg}`);
+    }
+  }
+
+  async function create(endpoint) {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: JSON.stringify({ userName: userName, password: password, email: email }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    });
+    if (response?.status === 200) {
+      localStorage.setItem('userName', userName);
+      props.onLogin(userName);
+    } else {
+      const body = await response.json();
+      setDisplayError(`⚠ Error: ${body.msg}`);
+    }
+  }
+
   async function loginUser() {
-    localStorage.setItem('userName', userName);
-    props.onLogin(userName);
+    login('/api/auth/login');
   }
 
   async function createUser() {
-    localStorage.setItem('userName', userName);
-    props.onLogin(userName);
+    create('/api/auth/create');
   }
 
   return (
