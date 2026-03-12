@@ -68,10 +68,25 @@ apiRouter.get('/builds', verifyAuth, (_req, res) => {
     res.send(builds);
 });
 
-// SubmitBuild
-apiRouter.post('/build', verifyAuth, (req, res) => {
-    builds = updateBuilds(req.body);
-    res.send(builds);
+// GetBuild Retrieve a single build
+apiRouter.get('/builds/:id', verifyAuth, (req, res) => {
+    const build = builds.find((b) => b.id === req.params.id);
+    if (build) {
+        res.send(build);
+    } else {
+        res.status(404).send({ msg: 'Build not found' });
+    }
+});
+
+// PostBuild Save a new character build
+apiRouter.post('/builds', verifyAuth, (req, res) => {
+    const build = {
+        ...req.body,
+        id: uuid.v4(),
+        createdAt: new Date().toISOString(),
+    };
+    builds.push(build);
+    res.send(build);
 });
 
 // Default error handler
@@ -89,28 +104,6 @@ app.listen(port, () => {
 });
 
 // Helper functions
-
-// updateBuilds considers a new build for inclusion in the high builds
-function updateBuilds(newBuild) {
-    let found = false;
-    for (const [i, prevBuild] of builds.entries()) {
-        if (newBuild.score > prevBuild.score) {
-            builds.splice(i, 0, newBuild);
-            found = true;
-            break;
-        }
-    }
-
-    if (!found) {
-        builds.push(newBuild);
-    }
-
-    if (builds.length > 10) {
-        builds.length = 10;
-    }
-
-    return builds;
-}
 
 async function createUser(email, password) {
     const passwordHash = await bcrypt.hash(password, 10);
