@@ -6,28 +6,28 @@ export function BuildsGallery() {
     const [builds, setBuilds] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     // example: fetch from an API endpoint
-    //     fetch('/api/builds')
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             setBuilds(data);
-    //             setLoading(false);
-    //         })
-    //         .catch(() => setLoading(false));
-    // }, []);
-
     useEffect(() => {
-        // Simulate fetching builds from an API
-        setTimeout(() => {
-            setBuilds([
-                { id: 1, name: 'Elven Archer', description: 'A dexterous archer with elven grace.' },
-                { id: 2, name: 'Dwarven Warrior', description: 'A sturdy warrior with unmatched strength.' },
-                { id: 3, name: 'Human Mage', description: 'A versatile mage with powerful spells.' },
-            ]);
-            setLoading(false);
-        }, 1000);
+        // example: fetch from an API endpoint
+        fetch('/api/builds')
+            .then(res => res.json())
+            .then(data => {
+                setBuilds(data);
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
     }, []);
+
+    // useEffect(() => {
+    //     // Simulate fetching builds from an API
+    //     setTimeout(() => {
+    //         setBuilds([
+    //             { id: 1, name: 'Elven Archer', description: 'A dexterous archer with elven grace.' },
+    //             { id: 2, name: 'Dwarven Warrior', description: 'A sturdy warrior with unmatched strength.' },
+    //             { id: 3, name: 'Human Mage', description: 'A versatile mage with powerful spells.' },
+    //         ]);
+    //         setLoading(false);
+    //     }, 1000);
+    // }, []);
 
     if (loading) return <div>Loading builds...</div>
 
