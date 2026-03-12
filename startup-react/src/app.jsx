@@ -69,7 +69,7 @@ export default function App() {
 
                 <footer>
                     <div className="container-fluid">
-                        <a href="https://github.com/josh-yamada" className="text-reset">GitHub Josh Yamada</a>
+                        <a href="https://github.com/josh-yamada16" className="text-reset">GitHub Josh Yamada</a>
                     </div>
                 </footer>
             </div>
