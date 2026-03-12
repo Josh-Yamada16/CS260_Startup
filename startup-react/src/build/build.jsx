@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import './build.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CardRow } from "../shared/cardRow";
 
 const classOptions = [
@@ -37,6 +37,41 @@ const featOptions = [
 ];
 
 export function Build() {
+    const navigate = useNavigate();
+    const [selectedClass, setSelectedClass] = useState(null);
+    const [selectedRace, setSelectedRace] = useState(null);
+    const [selectedBackground, setSelectedBackground] = useState(null);
+    const [selectedFeat, setSelectedFeat] = useState(null);
+
+    async function handleCreate() {
+        const build = {
+            class: selectedClass,
+            race: selectedRace,
+            background: selectedBackground,
+            feat: selectedFeat,
+            userName: localStorage.getItem('userName'),
+        };
+        try {
+            const response = await fetch('/api/builds', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(build),
+            });
+            if (response.ok) {
+                navigate('/other_builds');
+            }
+        } catch {
+            // Handle offline/error case
+        }
+    }
+
+    function handleClear() {
+        setSelectedClass(null);
+        setSelectedRace(null);
+        setSelectedBackground(null);
+        setSelectedFeat(null);
+    }
+    
     return (
         <main>
             <div className="build-layout">
@@ -64,7 +99,10 @@ export function Build() {
                         </div>
                         <div className="card-body">
                             <h5 className="card-title">{option.name}</h5>
-                            <button className="btn btn-primary">Select</button>
+                            <button
+                                className={`btn ${selectedClass?.id === option.id ? 'btn-success' : 'btn-primary'}`}
+                                onClick={() => setSelectedClass(option)}
+                            >Select</button>
                         </div>
                         </>
                     )}
@@ -84,7 +122,10 @@ export function Build() {
                         </div>
                         <div className="card-body">
                             <h5 className="card-title">{option.name}</h5>
-                            <button className="btn btn-primary">Select</button>
+                            <button
+                                className={`btn ${selectedRace?.id === option.id ? 'btn-success' : 'btn-primary'}`}
+                                onClick={() => setSelectedRace(option)}
+                            >Select</button>
                         </div>
                         </>
                     )}
@@ -103,7 +144,10 @@ export function Build() {
                         </div>
                         <div className="card-body">
                             <h5 className="card-title">{option.name}</h5>
-                            <button className="btn btn-primary">Select</button>
+                            <button
+                                className={`btn ${selectedBackground?.id === option.id ? 'btn-success' : 'btn-primary'}`}
+                                onClick={() => setSelectedBackground(option)}
+                            >Select</button>
                         </div>
                         </>
                     )}
@@ -122,15 +166,22 @@ export function Build() {
                         </div>
                         <div className="card-body">
                             <h5 className="card-title">{option.name}</h5>
-                            <button className="btn btn-primary">Select</button>
+                            <button
+                                className={`btn ${selectedFeat?.id === option.id ? 'btn-success' : 'btn-primary'}`}
+                                onClick={() => setSelectedFeat(option)}
+                            >Select</button>
                         </div>
                         </>
                     )}
                 />
 
                 <div id="actions-section">
-                    <Link to="/home" className="btn btn-primary btn-lg" style={{backgroundColor: '#1e4d2b', width: '190px', marginRight: '10px'}}>Create Character</Link>
-                    <Link to="/build" className="btn btn-outline-danger" >Clear</Link>
+                    <button
+                        className="btn btn-primary btn-lg"
+                        style={{backgroundColor: '#1e4d2b', width: '190px', marginRight: '10px'}}
+                        onClick={handleCreate}
+                    >Create Character</button>
+                    <button className="btn btn-outline-danger" onClick={handleClear}>Clear</button>
                 </div>
             </div>
             </div>

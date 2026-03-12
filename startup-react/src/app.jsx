@@ -21,8 +21,7 @@ export default function App() {
     function HeaderFooter(){
         const navigate = useNavigate();
 
-        function handleLogout(e) {
-            e.preventDefault();
+        function handleLogout() {
             fetch('/api/auth/logout', {
             method: 'DELETE',
             })
@@ -52,7 +51,7 @@ export default function App() {
                             <NavLink className="nav-link" to="/other_builds">Other Builds</NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/authPage" onClick={handleLogout}>Logout</a>
+                            <a className="nav-link" onClick={handleLogout}>Logout</a>
                         </li>
                     </ul>
                     <hr />
