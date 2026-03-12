@@ -78,6 +78,12 @@ apiRouter.get('/builds/:id', verifyAuth, (req, res) => {
     }
 });
 
+// GetUserBuilds Retrieve builds for a specific user
+apiRouter.get('/builds/user/:userName', verifyAuth, (req, res) => {
+    const userBuilds = builds.filter((b) => b.userName === req.params.userName);
+    res.send(userBuilds);
+});
+
 // PostBuild Save a new character build
 apiRouter.post('/builds', verifyAuth, (req, res) => {
     const build = {

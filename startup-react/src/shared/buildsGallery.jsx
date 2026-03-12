@@ -2,20 +2,24 @@ import React, { useEffect, useState } from 'react';
 import './buildsGallery.css';
 import { CardGallery } from './cardGallery';
 
-export function BuildsGallery() {
+export function BuildsGallery({ mode = 'all', userName }) {
     const [builds, setBuilds] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // example: fetch from an API endpoint
-        fetch('/api/builds')
+        const endpoint = mode === 'user'
+        ? `/api/builds/user/${userName}`
+        : '/api/builds';
+
+        fetch(endpoint)
             .then(res => res.json())
             .then(data => {
                 setBuilds(data);
                 setLoading(false);
             })
             .catch(() => setLoading(false));
-    }, []);
+    }, [mode, userName]);
 
     // useEffect(() => {
     //     // Simulate fetching builds from an API

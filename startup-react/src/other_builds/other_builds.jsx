@@ -18,7 +18,7 @@ export function Other_Builds(props) {
 
             <h2>Character Builds Gallery</h2>
             <div className="gallery-container">
-                <BuildsGallery />
+                <BuildsGallery mode="all" />
             </div>
             <div>
                 <nav aria-label="Page navigation">
