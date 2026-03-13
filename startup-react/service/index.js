@@ -19,24 +19,25 @@ const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
-    if (await findUser('email', req.body.email)) {
+    if (await findUserByCredential(req.body.email) || await findUserByCredential(req.body.userName)) {
         res.status(409).send({ msg: 'Existing user' });
     } else {
-        const user = await createUser(req.body.email, req.body.password);
+        const user = await createUser(req.body.userName, req.body.email, req.body.password);
 
         setAuthCookie(res, user.token);
-        res.send({ email: user.email });
+        res.send({ email: user.email, userName: user.userName });
     }
 });
 
 // GetAuth Login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-    const user = await findUser('email', req.body.email);
+    const credential = req.body.credential || req.body.email || req.body.userName;
+    const user = await findUserByCredential(credential);
     if (user) {
         if (await bcrypt.compare (req.body.password, user.password)) {
             user.token = uuid.v4();
             setAuthCookie(res, user.token);
-            res.send({ email: user.email });
+            res.send({ email: user.email, userName: user.userName });
             return;
         }
     }
@@ -111,10 +112,11 @@ app.listen(port, () => {
 
 // Helper functions
 
-async function createUser(email, password) {
+async function createUser(userName, email, password) {
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = {
+        userName: userName,
         email: email,
         password: passwordHash,
         token: uuid.v4(),
@@ -127,6 +129,12 @@ async function findUser(field, value) {
     if (!value) return null;
 
     return users.find((u) => u[field] === value);
+}
+
+async function findUserByCredential(credential) {
+    if (!credential) return null;
+
+    return users.find((user) => user.email === credential || user.userName === credential);
 }
 
 // setAuthCookie in the HTTP response

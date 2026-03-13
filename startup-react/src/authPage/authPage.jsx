@@ -1,17 +1,42 @@
 import React from "react";
 import './authPage.css';
 import { useNavigate } from "react-router-dom";
-import AuthForm from "./authForm";
+import AuthForm from "./AuthForm";
 
-export function AuthPage() {
+export function AuthPage({ setIsAuthenticated }) {
     const navigate = useNavigate();
+    const [error, setError] = React.useState('');
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-    function handleAuth({ username, password, name, mode, authToken }) {
-        // Here you would normally handle login/signup logic (validation, API call, etc.)
-        // For now, just redirect to /home
-        localStorage.setItem('userName', username);
-        // localStorage.setItem('authToken', authToken); // Store the token for future authenticated requests
-        navigate('/home');
+    async function handleAuth({ credential, password }) {
+        setError('');
+        setIsSubmitting(true);
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({ credential, password }),
+            });
+
+            if (!response.ok) {
+                const body = await response.json().catch(() => ({}));
+                throw new Error(body.msg || 'Authentication failed');
+            }
+
+            const body = await response.json().catch(() => ({}));
+            const userName = body.userName || credential;
+
+            localStorage.setItem('userName', userName);
+            setIsAuthenticated(true);
+            navigate('/home', { replace: true });
+        } catch (authError) {
+            setError(authError.message);
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     return (
@@ -22,7 +47,7 @@ export function AuthPage() {
             </div>
             <div className="right">
                 <h1 className="welcome-title">Welcome to DnD Character Builder</h1>
-                <AuthForm onAuth={handleAuth} />
+                <AuthForm onAuth={handleAuth} error={error} isSubmitting={isSubmitting} />
             </div>
         </div>
     );
