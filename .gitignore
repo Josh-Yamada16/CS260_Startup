@@ -340,7 +340,7 @@ paket-files/
 **/.cr/personal
 
 # Database configuration files with sensitive credentials
-startup-db/db/dbConfig.json
+startup-db/service/dbConfig.json
 simon-db/service/dbConfig.json
 
 
