@@ -1,0 +1,94 @@
+import React, {useState} from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
+import './app.css';
+
+import { NavLink, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthPage } from './authPage/authPage';
+import { Home } from './home/home';
+import { Build } from './build/build';
+import { Other_Builds } from './other_builds/other_builds';
+import { Signup } from './signup/signup';
+
+export default function App() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    function usePageLocation() {
+        const location = useLocation();
+        return location.pathname;
+    }
+
+    function HeaderFooter(){
+        const navigate = useNavigate();
+
+        function handleLogout(e) {
+            e.preventDefault();
+            localStorage.removeItem('userName');
+            navigate('/authPage');
+        }
+
+        return (
+            <div className='body'>
+                <header>
+                    <h1>DnD Character Builder<sup></sup></h1>
+    
+                    <ul className="nav nav-tabs">
+                        <li className="nav-item">
+                            <NavLink className="nav-link" aria-current="page" to="/home">Home</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/build">Build</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/other_builds">Other Builds</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/authPage" onClick={handleLogout}>Logout</a>
+                        </li>
+                    </ul>
+                    <hr />
+                </header>
+            </div>
+        );
+    }
+
+    function AppContent() {
+        const pathname = usePageLocation();
+        const showHeader = ['/home', '/build', '/other_builds'].includes(pathname);
+        return (
+            <div>
+                {showHeader && <HeaderFooter />}
+                <Routes>
+                    <Route path="/" element={<Navigate to="/authPage" replace />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/build" element={<Build />} />
+                    <Route path="/other_builds" element={<Other_Builds username={localStorage.getItem('userName')} />} />
+                    <Route path="/authPage" element={<AuthPage setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+
+                <footer>
+                    <div className="container-fluid">
+                        <a href="https://github.com/josh-yamada16" className="text-reset">GitHub Josh Yamada</a>
+                    </div>
+                </footer>
+            </div>
+        );
+    }
+
+    return (
+        <div className='app-container'>
+            <BrowserRouter>
+                <AppContent />
+            </BrowserRouter>
+        </div>
+    );
+}
+
+function NotFound() {
+    return (
+        <main className='container-fluid bg-secondary text-center'>
+            404: Return to sender. Address unknown.
+        </main>
+    );
+}

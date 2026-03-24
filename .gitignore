@@ -339,6 +339,11 @@ paket-files/
 # CodeRush personal settings
 **/.cr/personal
 
+# Database configuration files with sensitive credentials
+startup-db/db/dbConfig.json
+simon-db/service/dbConfig.json
+
+
 # Python Tools for Visual Studio (PTVS)
 **/__pycache__/
 *.pyc
@@ -421,4 +426,4 @@ FodyWeavers.xsd
 *.pem
 
 # Node Modules
-node_modules/
+*.node_modules/
