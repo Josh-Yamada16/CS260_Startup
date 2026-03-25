@@ -57,6 +57,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+    text-align: center;
   transition: opacity 0.3s;
   pointer-events: none;
 }
@@ -68,6 +69,13 @@ body {
 .card-description {
   padding: 10px;
   text-align: center;
+}
+
+.card-text {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
 }
 
 .build-layout {
