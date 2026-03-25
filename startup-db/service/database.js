@@ -20,7 +20,7 @@ const buildCollection = db.collection('build');
 })();
 
 function getUser(email, userName) {
-  return userCollection.findOne({ email: email }, { userName: userName });
+  return userCollection.findOne({ email: email, userName: userName });
 }
 
 function getUserByToken(token) {

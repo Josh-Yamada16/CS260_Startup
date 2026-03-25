@@ -21,7 +21,7 @@ let builds = [];
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
-    if (await findUserByCredential(req.body.email) || await findUserByCredential(req.body.userName)) {
+    if (await findUserByCredential(req.body.email, req.body.userName)) {
         res.status(409).send({ msg: 'Existing user' });
     } else {
         const user = await createUser(req.body.userName, req.body.email, req.body.password);
@@ -33,8 +33,7 @@ apiRouter.post('/auth/create', async (req, res) => {
 
 // GetAuth Login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-    const credential = req.body.credential || req.body.email || req.body.userName;
-    const user = await findUserByCredential(credential);
+    const user = await findUserByCredential(req.body.email, req.body.userName);
     if (user) {
         if (await bcrypt.compare(req.body.password, user.password)) {
             user.token = uuid.v4();
@@ -49,7 +48,7 @@ apiRouter.post('/auth/login', async (req, res) => {
 
 // DeleteAuth Logout a user
 apiRouter.delete('/auth/logout', async (req, res) => {
-    const user = await findUser('token', req.cookies[authCookieName]);
+    const user = await findUserByCredential(req.body.email, req.body.userName);
     if (user) {
         delete user.token;
         await DB.updateUserRemoveAuth(user);
@@ -60,7 +59,7 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 
 // Middleware to verify that the user is authorized to call an endpoint
 const verifyAuth = async (req, res, next) => {
-    const user = await findUser('token', req.cookies[authCookieName]);
+    const user = await findUserByCredential(req.body.email, req.body.userName);
     if (user) {
         next();
     } else {
@@ -126,20 +125,13 @@ async function createUser(userName, email, password) {
         password: passwordHash,
         token: uuid.v4(),
     };
-    users.push(user);
-    return user;
+    return await DB.addUser(user);
 }
 
-async function findUser(field, value) {
-    if (!value) return null;
+async function findUserByCredential(email, userName) {
+    if (!email || !userName) return null;
 
-    return users.find((u) => u[field] === value);
-}
-
-async function findUserByCredential(credential) {
-    if (!credential) return null;
-
-    return users.find((user) => user.email === credential || user.userName === credential);
+    return await DB.getUser(email, userName);
 }
 
 // setAuthCookie in the HTTP response
