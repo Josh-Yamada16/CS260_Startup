@@ -11,7 +11,7 @@ export function BuildsGallery({ mode = 'all', userName }) {
     useEffect(() => {
         let isActive = true;
         const endpoint = mode === 'user'
-        ? `/api/builds/user/${userName}`
+        ? '/api/builds/mine'
         : '/api/builds';
 
         setLoading(true);
@@ -104,13 +104,17 @@ export function BuildsGallery({ mode = 'all', userName }) {
                     <div className='card'>
                         <div className='card-img-wrapper'>
                             <div className='card-overlay'>
-                                <p className='card-description'>{build.description}</p>
+                                <p className='card-description'>
+                                    {(build.background && build.background.name) || 'Background Unknown'} | {(build.feat && build.feat.name) || 'Feat Unknown'}
+                                </p>
                             </div>
                         </div>
                         {/* Uncomment below when using API with image/link */}
                         {/* <img src={build.imageUrl} alt={build.title} className='card-img-top' /> */}
                         <div className='card-body'>
-                            <h5 className='card-title'>{build.name}</h5>
+                            <h5 className='card-title'>
+                                {(build.race && build.race.name) || 'Race Unknown'} {(build.class && build.class.name) || 'Class Unknown'}
+                            </h5>
                             {/* <a href={build.link} className='btn btn-primary'>Learn more</a> */}
                             <a href="#" className='btn btn-primary'>Learn more</a>
                         </div>

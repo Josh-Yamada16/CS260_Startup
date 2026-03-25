@@ -60,6 +60,7 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 const verifyAuth = async (req, res, next) => {
     const user = await DB.getUserByToken(req.cookies[authCookieName]);
     if (user) {
+        req.user = user;
         next();
     } else {
         res.status(401).send({ msg: 'Unauthorized' });
@@ -85,6 +86,12 @@ apiRouter.get('/builds/:id', verifyAuth, async (req, res) => {
 // GetUserBuilds Retrieve builds for a specific user
 apiRouter.get('/builds/user/:userName', verifyAuth, async (req, res) => {
     const userBuilds = await DB.getUserBuilds(req.params.userName);
+    res.send(userBuilds);
+});
+
+// GetMyBuilds Retrieve builds for the authenticated user
+apiRouter.get('/builds/mine', verifyAuth, async (req, res) => {
+    const userBuilds = await DB.getUserBuilds(req.user.userName);
     res.send(userBuilds);
 });
 
