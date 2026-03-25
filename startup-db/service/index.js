@@ -73,6 +73,12 @@ apiRouter.get('/builds', verifyAuth, async (_req, res) => {
     res.send(builds);
 });
 
+// GetMyBuilds Retrieve builds for the authenticated user
+apiRouter.get('/builds/mine', verifyAuth, async (req, res) => {
+    const userBuilds = await DB.getUserBuilds(req.user.userName);
+    res.send(userBuilds);
+});
+
 // GetBuild Retrieve a single build
 apiRouter.get('/builds/:id', verifyAuth, async (req, res) => {
     const build = await DB.getBuild(req.params.id);
@@ -86,12 +92,6 @@ apiRouter.get('/builds/:id', verifyAuth, async (req, res) => {
 // GetUserBuilds Retrieve builds for a specific user
 apiRouter.get('/builds/user/:userName', verifyAuth, async (req, res) => {
     const userBuilds = await DB.getUserBuilds(req.params.userName);
-    res.send(userBuilds);
-});
-
-// GetMyBuilds Retrieve builds for the authenticated user
-apiRouter.get('/builds/mine', verifyAuth, async (req, res) => {
-    const userBuilds = await DB.getUserBuilds(req.user.userName);
     res.send(userBuilds);
 });
 
