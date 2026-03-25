@@ -21,18 +21,6 @@ export function BuildsGallery({ mode = 'all', userName }) {
             .catch(() => setLoading(false));
     }, [mode, userName]);
 
-    // useEffect(() => {
-    //     // Simulate fetching builds from an API
-    //     setTimeout(() => {
-    //         setBuilds([
-    //             { id: 1, name: 'Elven Archer', description: 'A dexterous archer with elven grace.' },
-    //             { id: 2, name: 'Dwarven Warrior', description: 'A sturdy warrior with unmatched strength.' },
-    //             { id: 3, name: 'Human Mage', description: 'A versatile mage with powerful spells.' },
-    //         ]);
-    //         setLoading(false);
-    //     }, 1000);
-    // }, []);
-
     if (loading) return <div>Loading builds...</div>
 
     // placeholder card JSX

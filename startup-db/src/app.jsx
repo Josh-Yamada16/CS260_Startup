@@ -20,6 +20,7 @@ export default function App() {
 
     function HeaderFooter(){
         const navigate = useNavigate();
+        const userName = localStorage.getItem('userName') || 'Adventurer';
 
         function handleLogout() {
             fetch('/api/auth/logout', {
@@ -39,6 +40,7 @@ export default function App() {
             <div className='body'>
                 <header>
                     <h1>DnD Character Builder<sup></sup></h1>
+                    <h3>Welcome, {userName}!</h3>
     
                     <ul className="nav nav-tabs">
                         <li className="nav-item">
