@@ -68,14 +68,14 @@ const verifyAuth = async (req, res, next) => {
 };
 
 // GetBuilds
-apiRouter.get('/builds', verifyAuth, (_req, res) => {
-    const builds = DB.getBuilds();
+apiRouter.get('/builds', verifyAuth, async (_req, res) => {
+    const builds = await DB.getBuilds();
     res.send(builds);
 });
 
 // GetBuild Retrieve a single build
-apiRouter.get('/builds/:id', verifyAuth, (req, res) => {
-    const build = DB.getBuild(req.params.id);
+apiRouter.get('/builds/:id', verifyAuth, async (req, res) => {
+    const build = await DB.getBuild(req.params.id);
     if (build) {
         res.send(build);
     } else {
@@ -90,13 +90,13 @@ apiRouter.get('/builds/user/:userName', verifyAuth, (req, res) => {
 });
 
 // PostBuild Save a new character build
-apiRouter.post('/builds', verifyAuth, (req, res) => {
+apiRouter.post('/builds', verifyAuth, async (req, res) => {
     const build = {
         ...req.body,
         id: uuid.v4(),
         createdAt: new Date().toISOString(),
     };
-    builds.push(build);
+    await DB.addBuild(build);
     res.send(build);
 });
 
