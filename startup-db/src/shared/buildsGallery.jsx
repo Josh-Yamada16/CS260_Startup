@@ -6,6 +6,7 @@ export function BuildsGallery({ mode = 'all', userName }) {
     const [builds, setBuilds] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [retryCount, setRetryCount] = useState(0);
 
     useEffect(() => {
         let isActive = true;
@@ -51,10 +52,23 @@ export function BuildsGallery({ mode = 'all', userName }) {
         return () => {
             isActive = false;
         };
-    }, [mode, userName]);
+    }, [mode, userName, retryCount]);
 
     if (loading) return <div>Loading builds...</div>
-    if (error) return <div style={{ color: '#a33', marginBottom: '12px' }}>{error}</div>
+    if (error) {
+        return (
+            <div style={{ marginBottom: '12px' }}>
+                <div style={{ color: '#a33', marginBottom: '8px' }}>{error}</div>
+                <button
+                    type='button'
+                    className='btn btn-outline-secondary btn-sm'
+                    onClick={() => setRetryCount((currentCount) => currentCount + 1)}
+                >
+                    Retry
+                </button>
+            </div>
+        );
+    }
     if (!builds.length) return <div>No builds found yet.</div>
 
     // placeholder card JSX
