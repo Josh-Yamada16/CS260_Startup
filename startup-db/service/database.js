@@ -19,8 +19,8 @@ const buildCollection = db.collection('build');
   }
 })();
 
-function getUser(email, userName) {
-  return userCollection.findOne({ email: email, userName: userName });
+function getUser(credential) {
+  return userCollection.findOne({ $or: [{ email: credential }, { userName: credential }] });
 }
 
 function getUserByToken(token) {
@@ -31,12 +31,12 @@ async function addUser(user) {
   await userCollection.insertOne(user);
 }
 
-async function updateUser(user) {
-  await userCollection.updateOne({ email: user.email }, { $set: user });
+async function updateUserToken(user) {
+  await userCollection.updateOne({ userName: user.userName }, { $set: { token: user.token } });
 }
 
 async function updateUserRemoveAuth(user) {
-  await userCollection.updateOne({ email: user.email }, { $unset: { token: 1 } });
+  await userCollection.updateOne({ userName: user.userName }, { $unset: { token: 1 } });
 }
 
 async function addBuild(build) {
@@ -62,14 +62,14 @@ function getUserBuilds(userName) {
 }
 
 function getBuild(id) {
-  return buildCollection.findOne({ _id: id });
+  return buildCollection.findOne({ id: id });
 }
 
 module.exports = {
   getUser,
   getUserByToken,
   addUser,
-  updateUser,
+  updateUserToken,
   updateUserRemoveAuth,
   addBuild,
   getBuilds,

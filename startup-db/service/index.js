@@ -16,16 +16,17 @@ app.use(express.static('public'));
 let apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-let users = [];
-let builds = [];
-
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
-    if (await findUserByCredential(req.body.email, req.body.userName)) {
+    const existingByEmail = await findUserByCredential(req.body.email);
+    const existingByUserName = await findUserByCredential(req.body.userName);
+
+    if (existingByEmail || existingByUserName) {
         res.status(409).send({ msg: 'Existing user' });
     } else {
         const user = await createUser(req.body.userName, req.body.email, req.body.password);
-
+        user.token = uuid.v4();
+        await DB.updateUserToken(user);
         setAuthCookie(res, user.token);
         res.send({ email: user.email, userName: user.userName });
     }
@@ -33,11 +34,12 @@ apiRouter.post('/auth/create', async (req, res) => {
 
 // GetAuth Login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-    const user = await findUserByCredential(req.body.email, req.body.userName);
+    const credential = req.body.credential || req.body.email || req.body.userName;
+    const user = await findUserByCredential(credential);
     if (user) {
         if (await bcrypt.compare(req.body.password, user.password)) {
             user.token = uuid.v4();
-            await DB.updateUser(user);
+            await DB.updateUserToken(user);
             setAuthCookie(res, user.token);
             res.send({ email: user.email, userName: user.userName });
             return;
@@ -48,7 +50,7 @@ apiRouter.post('/auth/login', async (req, res) => {
 
 // DeleteAuth Logout a user
 apiRouter.delete('/auth/logout', async (req, res) => {
-    const user = await findUserByCredential(req.body.email, req.body.userName);
+    const user = await DB.getUserByToken(req.cookies[authCookieName]);
     if (user) {
         delete user.token;
         await DB.updateUserRemoveAuth(user);
@@ -59,7 +61,7 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 
 // Middleware to verify that the user is authorized to call an endpoint
 const verifyAuth = async (req, res, next) => {
-    const user = await findUserByCredential(req.body.email, req.body.userName);
+    const user = await DB.getUserByToken(req.cookies[authCookieName]);
     if (user) {
         next();
     } else {
@@ -84,8 +86,8 @@ apiRouter.get('/builds/:id', verifyAuth, async (req, res) => {
 });
 
 // GetUserBuilds Retrieve builds for a specific user
-apiRouter.get('/builds/user/:userName', verifyAuth, (req, res) => {
-    const userBuilds = DB.getUserBuilds(req.params.userName);
+apiRouter.get('/builds/user/:userName', verifyAuth, async (req, res) => {
+    const userBuilds = await DB.getUserBuilds(req.params.userName);
     res.send(userBuilds);
 });
 
@@ -125,13 +127,14 @@ async function createUser(userName, email, password) {
         password: passwordHash,
         token: uuid.v4(),
     };
-    return await DB.addUser(user);
+    await DB.addUser(user);
+    return user;
 }
 
-async function findUserByCredential(email, userName) {
-    if (!email || !userName) return null;
+async function findUserByCredential(credential) {
+    if (!credential) return null;
 
-    return await DB.getUser(email, userName);
+    return await DB.getUser(credential);
 }
 
 // setAuthCookie in the HTTP response
