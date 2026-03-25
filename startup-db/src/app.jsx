@@ -11,7 +11,7 @@ import { Other_Builds } from './other_builds/other_builds';
 import { Signup } from './signup/signup';
 
 export default function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem('userName')));
 
     function usePageLocation() {
         const location = useLocation();
@@ -21,10 +21,18 @@ export default function App() {
     function HeaderFooter(){
         const navigate = useNavigate();
 
-        function handleLogout(e) {
-            e.preventDefault();
-            localStorage.removeItem('userName');
-            navigate('/authPage');
+        function handleLogout() {
+            fetch('/api/auth/logout', {
+            method: 'DELETE',
+            })
+            .catch(() => {
+                // Logout failed. Assuming offline
+            })
+            .finally(() => {
+                localStorage.removeItem('userName');
+                setIsAuthenticated(false);
+                navigate('/authPage');
+            });
         }
 
         return (
@@ -43,7 +51,7 @@ export default function App() {
                             <NavLink className="nav-link" to="/other_builds">Other Builds</NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/authPage" onClick={handleLogout}>Logout</a>
+                            <a className="nav-link" onClick={handleLogout}>Logout</a>
                         </li>
                     </ul>
                     <hr />
@@ -54,16 +62,17 @@ export default function App() {
 
     function AppContent() {
         const pathname = usePageLocation();
-        const showHeader = ['/home', '/build', '/other_builds'].includes(pathname);
+        const showHeader = isAuthenticated && ['/home', '/build', '/other_builds'].includes(pathname);
         return (
             <div>
                 {showHeader && <HeaderFooter />}
                 <Routes>
-                    <Route path="/" element={<Navigate to="/authPage" replace />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/build" element={<Build />} />
-                    <Route path="/other_builds" element={<Other_Builds username={localStorage.getItem('userName')} />} />
-                    <Route path="/authPage" element={<AuthPage setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path="/" element={<Navigate to={isAuthenticated ? '/home' : '/authPage'} replace />} />
+                    <Route path="/home" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Home /></ProtectedRoute>} />
+                    <Route path="/build" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Build /></ProtectedRoute>} />
+                    <Route path="/other_builds" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Other_Builds username={localStorage.getItem('userName')} /></ProtectedRoute>} />
+                    <Route path="/authPage" element={isAuthenticated ? <Navigate to="/home" replace /> : <AuthPage setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path="/signup" element={isAuthenticated ? <Navigate to="/home" replace /> : <Signup setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
 
@@ -83,6 +92,14 @@ export default function App() {
             </BrowserRouter>
         </div>
     );
+}
+
+function ProtectedRoute({ isAuthenticated, children }) {
+    if (!isAuthenticated) {
+        return <Navigate to="/authPage" replace />;
+    }
+
+    return children;
 }
 
 function NotFound() {

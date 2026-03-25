@@ -2,14 +2,62 @@ import React from "react";
 import './signup.css';
 import { Link, useNavigate } from "react-router-dom";
 
-export function Signup() {
+export function Signup({ setIsAuthenticated }) {
     const navigate = useNavigate();
+    const [form, setForm] = React.useState({
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+    const [error, setError] = React.useState('');
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-    function handleRegister(e) {
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setForm((currentForm) => ({
+            ...currentForm,
+            [name]: value,
+        }));
+    }
+
+    async function handleRegister(e) {
         e.preventDefault();
-        // Here you would normally handle registration logic (validation, API call, etc.)
-        // For now, just redirect to /home
-        navigate('/home');
+
+        if (form.password !== form.confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        setError('');
+        setIsSubmitting(true);
+
+        try {
+            const response = await fetch('/api/auth/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({
+                    userName: form.username,
+                    email: form.email,
+                    password: form.password,
+                }),
+            });
+
+            if (!response.ok) {
+                const body = await response.json().catch(() => ({}));
+                throw new Error(body.msg || 'Account creation failed');
+            }
+
+            localStorage.setItem('userName', form.username);
+            setIsAuthenticated(true);
+            navigate('/home', { replace: true });
+        } catch (registerError) {
+            setError(registerError.message);
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     return (
@@ -25,22 +73,23 @@ export function Signup() {
                         <h5 className="signup-subtitle">Create your account.</h5>
                         <div className="mb-3">
                             <label htmlFor="exampleDropdownFormUsername" className="form-label username-label">Enter a Username:</label>
-                            <input type="text" className="form-control username-input" id="exampleDropdownFormUsername" placeholder="username" />
+                            <input type="text" className="form-control username-input" id="exampleDropdownFormUsername" name="username" placeholder="username" value={form.username} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleDropdownFormEmail1" className="form-label email-label">Enter an Email Address:</label>
-                            <input type="email" className="form-control email-input" id="exampleDropdownFormEmail1" placeholder="email@example.com" />
+                            <input type="email" className="form-control email-input" id="exampleDropdownFormEmail1" name="email" placeholder="email@example.com" value={form.email} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleDropdownFormPassword1" className="form-label password-label">Enter a Password:</label>
-                            <input type="password" className="form-control password-input" id="exampleDropdownFormPassword1" placeholder="Password" />
+                            <input type="password" className="form-control password-input" id="exampleDropdownFormPassword1" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleDropdownFormPassword2" className="form-label confirm-label">Confirm Password</label>
-                            <input type="password" className="form-control confirm-input" id="exampleDropdownFormPassword2" placeholder="Confirm Password" />
+                            <input type="password" className="form-control confirm-input" id="exampleDropdownFormPassword2" name="confirmPassword" placeholder="Confirm Password" value={form.confirmPassword} onChange={handleChange} required />
                         </div>
-                        <button type="submit" className="btn btn-primary btn-lg signup-btn" style={{marginRight: '10px'}}>Register</button>
-                        <Link to="/index" className="login-link">Already have an account?</Link>
+                        {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+                        <button type="submit" className="btn btn-primary btn-lg signup-btn" style={{marginRight: '10px'}} disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Register'}</button>
+                        <Link to="/authPage" className="login-link">Already have an account?</Link>
                     </form>
                 </div>
             </div>

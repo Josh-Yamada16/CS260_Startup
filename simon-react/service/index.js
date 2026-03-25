@@ -1,58 +1,53 @@
+const express = require('express');
+const app = express();
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
-const express = require('express');
 const uuid = require('uuid');
-const app = express();
-const DB = require('./database.js');
-
 const authCookieName = 'token';
-
-const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 
+let users = [];
+let scores = [];
+
 let apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-let users = [];
-let builds = [];
+const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
-    if (await findUserByCredential(req.body.email) || await findUserByCredential(req.body.userName)) {
+    if (await findUser('email', req.body.email)) {
         res.status(409).send({ msg: 'Existing user' });
     } else {
-        const user = await createUser(req.body.userName, req.body.email, req.body.password);
+        const user = await createUser(req.body.email, req.body.password);
 
         setAuthCookie(res, user.token);
-        res.send({ email: user.email, userName: user.userName });
+        res.send({ email: user.email });
     }
 });
 
 // GetAuth Login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-    const credential = req.body.credential || req.body.email || req.body.userName;
-    const user = await findUserByCredential(credential);
+    const user = await findUser('email', req.body.email);
     if (user) {
-        if (await bcrypt.compare(req.body.password, user.password)) {
+        if (await bcrypt.compare (req.body.password, user.password)) {
             user.token = uuid.v4();
-            await DB.updateUser(user);
             setAuthCookie(res, user.token);
-            res.send({ email: user.email, userName: user.userName });
+            res.send({ email: user.email });
             return;
         }
     }
     res.status(401).send({ msg: 'Unauthorized' });
 });
 
-// DeleteAuth Logout a user
+//DeleteAuth Logout a user
 apiRouter.delete('/auth/logout', async (req, res) => {
     const user = await findUser('token', req.cookies[authCookieName]);
     if (user) {
         delete user.token;
-        await DB.updateUserRemoveAuth(user);
     }
     res.clearCookie(authCookieName);
     res.status(204).end();
@@ -68,37 +63,15 @@ const verifyAuth = async (req, res, next) => {
     }
 };
 
-// GetBuilds
-apiRouter.get('/builds', verifyAuth, (_req, res) => {
-    const builds = DB.getBuilds();
-    res.send(builds);
+// GetScores
+apiRouter.get('/scores', verifyAuth, (_req, res) => {
+    res.send(scores);
 });
 
-// GetBuild Retrieve a single build
-apiRouter.get('/builds/:id', verifyAuth, (req, res) => {
-    const build = DB.getBuild(req.params.id);
-    if (build) {
-        res.send(build);
-    } else {
-        res.status(404).send({ msg: 'Build not found' });
-    }
-});
-
-// GetUserBuilds Retrieve builds for a specific user
-apiRouter.get('/builds/user/:userName', verifyAuth, (req, res) => {
-    const userBuilds = DB.getUserBuilds(req.params.userName);
-    res.send(userBuilds);
-});
-
-// PostBuild Save a new character build
-apiRouter.post('/builds', verifyAuth, (req, res) => {
-    const build = {
-        ...req.body,
-        id: uuid.v4(),
-        createdAt: new Date().toISOString(),
-    };
-    builds.push(build);
-    res.send(build);
+// SubmitScore
+apiRouter.post('/score', verifyAuth, (req, res) => {
+    scores = updateScores(req.body);
+    res.send(scores);
 });
 
 // Default error handler
@@ -117,11 +90,32 @@ app.listen(port, () => {
 
 // Helper functions
 
-async function createUser(userName, email, password) {
+// updateScores considers a new score for inclusion in the high scores
+function updateScores(newScore) {
+    let found = false;
+    for (const [i, prevScore] of scores.entries()) {
+        if (newScore.score > prevScore.score) {
+            scores.splice(i, 0, newScore);
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        scores.push(newScore);
+    }
+
+    if (scores.length > 10) {
+        scores.length = 10;
+    }
+
+    return scores;
+}
+
+async function createUser(email, password) {
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = {
-        userName: userName,
         email: email,
         password: passwordHash,
         token: uuid.v4(),
@@ -134,12 +128,6 @@ async function findUser(field, value) {
     if (!value) return null;
 
     return users.find((u) => u[field] === value);
-}
-
-async function findUserByCredential(credential) {
-    if (!credential) return null;
-
-    return users.find((user) => user.email === credential || user.userName === credential);
 }
 
 // setAuthCookie in the HTTP response

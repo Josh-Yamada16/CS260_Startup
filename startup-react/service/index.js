@@ -1,23 +1,21 @@
+const express = require('express');
+const app = express();
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
-const express = require('express');
 const uuid = require('uuid');
-const app = express();
-const DB = require('./database.js');
-
 const authCookieName = 'token';
-
-const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 
+let users = [];
+let builds = [];
+
 let apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-let users = [];
-let builds = [];
+const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
@@ -36,9 +34,8 @@ apiRouter.post('/auth/login', async (req, res) => {
     const credential = req.body.credential || req.body.email || req.body.userName;
     const user = await findUserByCredential(credential);
     if (user) {
-        if (await bcrypt.compare(req.body.password, user.password)) {
+        if (await bcrypt.compare (req.body.password, user.password)) {
             user.token = uuid.v4();
-            await DB.updateUser(user);
             setAuthCookie(res, user.token);
             res.send({ email: user.email, userName: user.userName });
             return;
@@ -52,7 +49,6 @@ apiRouter.delete('/auth/logout', async (req, res) => {
     const user = await findUser('token', req.cookies[authCookieName]);
     if (user) {
         delete user.token;
-        await DB.updateUserRemoveAuth(user);
     }
     res.clearCookie(authCookieName);
     res.status(204).end();
@@ -70,13 +66,12 @@ const verifyAuth = async (req, res, next) => {
 
 // GetBuilds
 apiRouter.get('/builds', verifyAuth, (_req, res) => {
-    const builds = DB.getBuilds();
     res.send(builds);
 });
 
 // GetBuild Retrieve a single build
 apiRouter.get('/builds/:id', verifyAuth, (req, res) => {
-    const build = DB.getBuild(req.params.id);
+    const build = builds.find((b) => b.id === req.params.id);
     if (build) {
         res.send(build);
     } else {
@@ -86,7 +81,7 @@ apiRouter.get('/builds/:id', verifyAuth, (req, res) => {
 
 // GetUserBuilds Retrieve builds for a specific user
 apiRouter.get('/builds/user/:userName', verifyAuth, (req, res) => {
-    const userBuilds = DB.getUserBuilds(req.params.userName);
+    const userBuilds = builds.filter((b) => b.userName === req.params.userName);
     res.send(userBuilds);
 });
 

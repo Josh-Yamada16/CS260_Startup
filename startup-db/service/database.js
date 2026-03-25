@@ -4,9 +4,9 @@ const config = require('./dbConfig.json');
 const mongoUser = config.userName || config.username;
 const url = `mongodb+srv://${mongoUser}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
-const db = client.db('simon');
+const db = client.db('startup');
 const userCollection = db.collection('user');
-const scoreCollection = db.collection('score');
+const buildCollection = db.collection('build');
 
 // This will asynchronously test the connection and exit the process if it fails
 (async function testConnection() {
@@ -19,8 +19,8 @@ const scoreCollection = db.collection('score');
   }
 })();
 
-function getUser(email) {
-  return userCollection.findOne({ email: email });
+function getUser(email, userName) {
+  return userCollection.findOne({ email: email }, { userName: userName });
 }
 
 function getUserByToken(token) {
@@ -39,18 +39,30 @@ async function updateUserRemoveAuth(user) {
   await userCollection.updateOne({ email: user.email }, { $unset: { token: 1 } });
 }
 
-async function addScore(score) {
-  return scoreCollection.insertOne(score);
+async function addBuild(build) {
+  return buildCollection.insertOne(build);
 }
 
-function getHighScores() {
-  const query = { score: { $gt: 0, $lt: 900 } };
+function getBuilds() {
+  const query = {};
   const options = {
-    sort: { score: -1 },
-    limit: 10,
+    sort: { _id: 1 },
   };
-  const cursor = scoreCollection.find(query, options);
+  const cursor = buildCollection.find(query, options);
   return cursor.toArray();
+}
+
+function getUserBuilds(userName) {
+  const query = { userName: userName };
+  const options = {
+    sort: { _id: 1 },
+  };
+  const cursor = buildCollection.find(query, options);
+  return cursor.toArray();
+}
+
+function getBuild(id) {
+  return buildCollection.findOne({ _id: id });
 }
 
 module.exports = {
@@ -59,6 +71,8 @@ module.exports = {
   addUser,
   updateUser,
   updateUserRemoveAuth,
-  addScore,
-  getHighScores,
+  addBuild,
+  getBuilds,
+  getBuild,
+  getUserBuilds
 };
