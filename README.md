@@ -90,3 +90,14 @@ Store authentication information, users, votes, and created characters in databa
 - Added live notifications functionality to the other builds page.
 - Combined login and register pages into a single, modular authentication component.
 - Improved authentication page modularity, placing login and register boxes within the same component.
+
+# Startup Database
+- Created a dedicated startup-db service and integrated backend service files into the startup project.
+- Migrated character builds from in-memory arrays to persistent MongoDB storage.
+- Added database-backed authentication with stored users, hashed passwords, and token-based sessions.
+- Implemented authenticated build endpoints for all builds, single build lookup, and user-specific build retrieval.
+- Added a token-scoped route for personal builds and fixed route ordering so specific routes match before dynamic ID routes.
+- Improved credential handling to support login by email or username while keeping account creation validation focused on username uniqueness.
+- Added stronger frontend API error handling for build loading, including unauthorized/server messaging and retry without page refresh.
+- Updated build gallery rendering to map real stored build fields (class, race, background, feat) instead of placeholder name/description fields.
+- Added deployment support for startup-db and fixed server runtime dependency issues so database-enabled startup deploys cleanly.
