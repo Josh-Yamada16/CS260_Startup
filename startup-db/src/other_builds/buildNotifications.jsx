@@ -20,7 +20,7 @@ export function BuildNotifications() {
     setEvent((prevEvents) => {
       let newEvents = [event, ...prevEvents];
       if (newEvents.length > 6) {
-        newEvents = newEvents.slice(1, 7);
+        newEvents = newEvents.slice(0, 6);
       }
       return newEvents;
     });
