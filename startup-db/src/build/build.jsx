@@ -94,7 +94,7 @@ export function Build() {
                         <>
                         <div className="card-img-wrapper">
                             <div className="card-overlay">
-                                <p className="card-text">{option.description}</p>
+                                <p className="card-description">{option.description}</p>
                             </div>
                         </div>
                         <div className="card-body">
@@ -117,7 +117,7 @@ export function Build() {
                         <>
                         <div className="card-img-wrapper">
                             <div className="card-overlay">
-                                <p className="card-text">{option.description}</p>
+                                <p className="card-description">{option.description}</p>
                             </div>
                         </div>
                         <div className="card-body">
@@ -139,7 +139,7 @@ export function Build() {
                         <>
                         <div className="card-img-wrapper">
                             <div className="card-overlay">
-                                <p className="card-text">{option.description}</p>
+                                <p className="card-description">{option.description}</p>
                             </div>
                         </div>
                         <div className="card-body">
@@ -161,7 +161,7 @@ export function Build() {
                         <>
                         <div className="card-img-wrapper">
                             <div className="card-overlay">
-                                <p className="card-text">{option.description}</p>
+                                <p className="card-description">{option.description}</p>
                             </div>
                         </div>
                         <div className="card-body">
