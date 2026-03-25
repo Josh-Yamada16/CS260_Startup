@@ -1,63 +1,60 @@
-.form-control {
-    width: 50%;
-    min-width: 250px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial;
-    background-color: #f4e8d0;
-    color: #2c1810;
-    display: flex;
-    flex-direction: column;
-    min-height: 80vh;
-}
-
-body.login-page {
-    height: 0vh;
-    margin: 0;
-    overflow: hidden;
-}
-
-.row {
-    display: flex;
-    width: 100%;
-}
-
-.col-6.left {
-    width: 50vw;
+.left {
+    width: 48vw;
     background-color: #1e4d2b;
     padding: 90px 100px 10% 50px; 
     color: white;
 }
 
-.col-6.left h1{
+.left h1{
     font-size: clamp(48px, 8vw, 128px);
     line-height: clamp(45px, 8vw, 100px);
-}
+} 
 
-.col-6.left p{
+.left p{
     font-size: clamp(12px, 2vw, 32px);
     line-height: clamp(1vw, 3vw, 64px);
-}
+} 
 
-.col-6.right {
-    width: 50vw;
+.right {
+    width: 52vw;
     padding: 90px 100px 10% 50px;
     background-color: #8b7355;
     padding: 50px;
 }
 
+
+.auth-main {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 80vh;
+    background-color: #f4e8d0;
+    color: #2c1b10;
+    font-family: Arial;
+}
+
+.auth-main > .left,
+.auth-main > .right {
+    flex: 1;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
 @media (max-width: 768px) {
-    .row {
+    .auth-main {
         flex-direction: column;
     }
-    
-    .col-6.left,
-    .col-6.right {
-        width: 100vw;
+    .auth-main > .left,
+    .auth-main > .right {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .auth-main,
+    main {
+        flex-direction: column;
+        min-width: unset;
     }
 }
