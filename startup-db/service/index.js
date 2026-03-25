@@ -18,15 +18,12 @@ app.use('/api', apiRouter);
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
-    const existingByEmail = await findUserByCredential(req.body.email);
     const existingByUserName = await findUserByCredential(req.body.userName);
 
-    if (existingByEmail || existingByUserName) {
+    if (existingByUserName) {
         res.status(409).send({ msg: 'Existing user' });
     } else {
         const user = await createUser(req.body.userName, req.body.email, req.body.password);
-        user.token = uuid.v4();
-        await DB.updateUserToken(user);
         setAuthCookie(res, user.token);
         res.send({ email: user.email, userName: user.userName });
     }
@@ -117,7 +114,6 @@ app.listen(port, () => {
 });
 
 // Helper functions
-
 async function createUser(userName, email, password) {
     const passwordHash = await bcrypt.hash(password, 10);
 
