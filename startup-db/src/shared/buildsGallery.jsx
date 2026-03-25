@@ -5,23 +5,57 @@ import { CardGallery } from './cardGallery';
 export function BuildsGallery({ mode = 'all', userName }) {
     const [builds, setBuilds] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        // example: fetch from an API endpoint
+        let isActive = true;
         const endpoint = mode === 'user'
         ? `/api/builds/user/${userName}`
         : '/api/builds';
 
-        fetch(endpoint)
-            .then(res => res.json())
+        setLoading(true);
+        setError('');
+
+        fetch(endpoint, { credentials: 'include' })
+            .then(async (res) => {
+                if (!res.ok) {
+                    if (res.status === 401) {
+                        throw new Error('You are not authorized. Please log in again.');
+                    }
+                    if (res.status >= 500) {
+                        throw new Error('Server error while loading builds. Please try again.');
+                    }
+
+                    const body = await res.json().catch(() => ({}));
+                    throw new Error(body.msg || 'Unable to load builds.');
+                }
+
+                return res.json();
+            })
             .then(data => {
-                setBuilds(data);
+                if (!isActive) {
+                    return;
+                }
+                setBuilds(Array.isArray(data) ? data : []);
                 setLoading(false);
             })
-            .catch(() => setLoading(false));
+            .catch((fetchError) => {
+                if (!isActive) {
+                    return;
+                }
+                setBuilds([]);
+                setError(fetchError.message || 'Unable to load builds.');
+                setLoading(false);
+            });
+
+        return () => {
+            isActive = false;
+        };
     }, [mode, userName]);
 
     if (loading) return <div>Loading builds...</div>
+    if (error) return <div style={{ color: '#a33', marginBottom: '12px' }}>{error}</div>
+    if (!builds.length) return <div>No builds found yet.</div>
 
     // placeholder card JSX
     const placeholderCard = (
