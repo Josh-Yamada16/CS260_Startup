@@ -1,0 +1,13 @@
+.build-details {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.build-details h2 {
+    margin-bottom: 12px;
+}
+
+.build-details p {
+    margin-bottom: 8px;
+}
