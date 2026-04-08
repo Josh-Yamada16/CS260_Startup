@@ -17,11 +17,11 @@ class GameEventNotifier {
 
   constructor() {
     // Simulate chat messages that will eventually come over WebSocket
-    setInterval(() => {
-      const date = new Date().toLocaleDateString();
-      const userName = 'Eich';
-      this.broadcastEvent(userName, CreationEvent.Created, { name: userName, date: date });
-    }, 2500);
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    this.socket.onopen = () => this.broadcastEvent('system', CreationEvent('system', CreationEvent.System, {}));
+    this.socket.onmessage = (event) => this.handleSocketMessage(event);
+    this.socket.onclose = () => this.broadcastEvent('system', CreationEvent.System, {});
   }
 
   broadcastEvent(from, type, value) {
