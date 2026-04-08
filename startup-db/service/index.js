@@ -114,6 +114,11 @@ apiRouter.post('/builds', verifyAuth, async (req, res) => {
         createdAt: new Date().toISOString(),
     };
     await DB.addBuild(build);
+    broadcast({
+        type: 'build_created',
+        from: req.user.userName,
+        value: { id: build.id, title:build.name || 'New Build' },
+    });
     res.send(build);
 });
 
@@ -127,10 +132,11 @@ app.use((_req, res) => {
     res.sendFile('index.html', { root: 'public' });
 });
 
-app.listen(port, () => {
-    console.log(`listening on port ${port}`);
-});
+server.listen(port, () => 
+    console.log(`Startup DB service running on port ${port}`
 
+    ));
+    
 // Helper functions
 async function createUser(userName, email, password) {
     const passwordHash = await bcrypt.hash(password, 10);
