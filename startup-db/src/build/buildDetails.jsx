@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import './buildDetails.css';
 
@@ -24,7 +24,9 @@ export function BuildDetails() {
 
     return (
         <main className='build-details'>
-            <h2>{(build.race?.name || 'Race Unknown')} {(build.class?.name || 'Class Unknown')}</h2>
+            <h2>{build.customName || `${build.race?.name || 'Race Unknown'} ${(build.class?.name || 'Class Unknown')}`}</h2>
+            <p>Class: {build.class?.name || 'Unknown'}</p>
+            <p>Race: {build.race?.name || 'Unknown'}</p>
             <p>Background: {build.background?.name || 'Unknown'}</p>
             <p>Feat: {build.feat?.name || 'Unknown'}</p>
             <Link to="/other_builds" className="btn btn-secondary"> Back to Builds</Link>

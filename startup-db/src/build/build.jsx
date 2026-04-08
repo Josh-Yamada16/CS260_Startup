@@ -38,6 +38,7 @@ const featOptions = [
 
 export function Build() {
     const navigate = useNavigate();
+    const [customName, setCustomName] = useState('');
     const [selectedClass, setSelectedClass] = useState(null);
     const [selectedRace, setSelectedRace] = useState(null);
     const [selectedBackground, setSelectedBackground] = useState(null);
@@ -45,6 +46,7 @@ export function Build() {
 
     async function handleCreate() {
         const build = {
+            customName: customName.trim(),
             class: selectedClass,
             race: selectedRace,
             background: selectedBackground,
@@ -66,6 +68,7 @@ export function Build() {
     }
 
     function handleClear() {
+        setCustomName('');
         setSelectedClass(null);
         setSelectedRace(null);
         setSelectedBackground(null);
@@ -88,6 +91,17 @@ export function Build() {
             <div className="build-content">
                 {/* card to see options and details for character creation */}
                 <label id="class-section" htmlFor="class-select" style={{fontSize: 25}}>Class:</label>
+                <div className="mb-3">
+                    <label htmlFor="custom-name" className="form-label">Custom Name (optional)</label>
+                    <input
+                        id="custom-name"
+                        type="text"
+                        className="form-control"
+                        placeholder="Give your build a name"
+                        value={customName}
+                        onChange={(event) => setCustomName(event.target.value)}
+                    />
+                </div>
                 <CardRow
                     items={classOptions}
                     renderCard={option => (

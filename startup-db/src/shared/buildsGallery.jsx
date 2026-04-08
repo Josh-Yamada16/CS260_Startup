@@ -114,7 +114,7 @@ export function BuildsGallery({ mode = 'all', userName }) {
                         {/* <img src={build.imageUrl} alt={build.title} className='card-img-top' /> */}
                         <div className='card-body'>
                             <h5 className='card-title'>
-                                {(build.race && build.race.name) || 'Race Unknown'} {(build.class && build.class.name) || 'Class Unknown'}
+                                {build.customName || `${(build.race && build.race.name) || 'Race Unknown'} ${(build.class && build.class.name) || 'Class Unknown'}`}
                             </h5>
                             {/* <a href={build.link} className='btn btn-primary'>Learn more</a> */}
                             <Link to={`/build/${build.id}`} state={{ build }} className='btn btn-primary'>Learn More</Link>
