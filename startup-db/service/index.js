@@ -4,6 +4,11 @@ const express = require('express');
 const uuid = require('uuid');
 const app = express();
 const DB = require('./database.js');
+const http = require('http');
+const { WebSocketServer } = require('ws');
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server, path: '/ws' });
+
 
 const authCookieName = 'token';
 
@@ -15,6 +20,12 @@ app.use(express.static('public'));
 
 let apiRouter = express.Router();
 app.use('/api', apiRouter);
+
+const wsClients = new Set();
+function broadcast(data) {
+    const msg = JSON.stringify(data);
+    wsClients.forEach((ws) => ws.readyState === 1 && ws.send(msg));
+}
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
@@ -139,6 +150,12 @@ async function findUserByCredential(credential) {
 
     return await DB.getUser(credential);
 }
+
+wss.on('connection', (ws) => {
+    wsClients.add(ws);
+    ws.send(JSON.stringify({ type:'system', value:'connected' }));
+    ws.on('close', () => wsClients.delete(ws));
+})
 
 // setAuthCookie in the HTTP response
 function setAuthCookie(res, authToken) {
