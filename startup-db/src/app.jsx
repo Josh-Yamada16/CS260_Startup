@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import './app.css';
+import { BuildDetails } from './build/buildDetails';
 
 import { NavLink, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthPage } from './authPage/authPage';
@@ -73,6 +74,7 @@ export default function App() {
                     <Route path="/home" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Home /></ProtectedRoute>} />
                     <Route path="/build" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Build /></ProtectedRoute>} />
                     <Route path="/other_builds" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Other_Builds username={localStorage.getItem('userName')} /></ProtectedRoute>} />
+                    <Route path="/build/:id" element={<ProtectedRoute isAuthenticated={isAuthenticated}><BuildDetails /></ProtectedRoute>} />
                     <Route path="/authPage" element={isAuthenticated ? <Navigate to="/home" replace /> : <AuthPage setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="/signup" element={isAuthenticated ? <Navigate to="/home" replace /> : <Signup setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="*" element={<NotFound />} />

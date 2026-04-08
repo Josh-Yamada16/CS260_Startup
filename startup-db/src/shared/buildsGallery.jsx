@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './buildsGallery.css';
 import { CardGallery } from './cardGallery';
+import { Link } from 'react-router-dom';
 
 export function BuildsGallery({ mode = 'all', userName }) {
     const [builds, setBuilds] = useState([]);
@@ -116,7 +117,7 @@ export function BuildsGallery({ mode = 'all', userName }) {
                                 {(build.race && build.race.name) || 'Race Unknown'} {(build.class && build.class.name) || 'Class Unknown'}
                             </h5>
                             {/* <a href={build.link} className='btn btn-primary'>Learn more</a> */}
-                            <a href="#" className='btn btn-primary'>Learn more</a>
+                            <Link to={`/builds/${build.id}`} state={{ build }} className='btn btn-primary'>Learn More</Link>
                         </div>
                     </div>
                 )}
