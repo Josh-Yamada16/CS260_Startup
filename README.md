@@ -101,3 +101,14 @@ Store authentication information, users, votes, and created characters in databa
 - Added stronger frontend API error handling for build loading, including unauthorized/server messaging and retry without page refresh.
 - Updated build gallery rendering to map real stored build fields (class, race, background, feat) instead of placeholder name/description fields.
 - Added deployment support for startup-db and fixed server runtime dependency issues so database-enabled startup deploys cleanly.
+
+# Startup Websocket
+- Started the websocket setup on the server side.
+- Finished the server-side websocket wiring so the service can broadcast live updates.
+- Updated the live notification box component for the other builds section.
+- Fixed a runtime error in the websocket notifier.
+- Added the build details page for viewing a selected build.
+- Added CSS for the build details page.
+- Fixed the routing issue so the nav bar shows on the build details page.
+- Corrected the active selection highlighting for the navigation tabs.
+- Added support for an optional custom build name.
