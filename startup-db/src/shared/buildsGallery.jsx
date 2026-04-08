@@ -117,7 +117,7 @@ export function BuildsGallery({ mode = 'all', userName }) {
                                 {(build.race && build.race.name) || 'Race Unknown'} {(build.class && build.class.name) || 'Class Unknown'}
                             </h5>
                             {/* <a href={build.link} className='btn btn-primary'>Learn more</a> */}
-                            <Link to={`/builds/${build.id}`} state={{ build }} className='btn btn-primary'>Learn More</Link>
+                            <Link to={`/build/${build.id}`} state={{ build }} className='btn btn-primary'>Learn More</Link>
                         </div>
                     </div>
                 )}

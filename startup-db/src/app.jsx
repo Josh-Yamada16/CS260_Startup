@@ -21,7 +21,9 @@ export default function App() {
 
     function HeaderFooter(){
         const navigate = useNavigate();
+        const location = useLocation();
         const userName = localStorage.getItem('userName') || 'Adventurer';
+        const isBuildDetailPage = location.pathname.startsWith('/build/');
 
         function handleLogout() {
             fetch('/api/auth/logout', {
@@ -48,7 +50,7 @@ export default function App() {
                             <NavLink className="nav-link" aria-current="page" to="/home">Home</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/build">Build</NavLink>
+                            <NavLink className={({ isActive }) => `nav-link ${(isActive || isBuildDetailPage) ? 'active' : ''}`} to="/build">Build</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/other_builds">Other Builds</NavLink>
@@ -65,7 +67,9 @@ export default function App() {
 
     function AppContent() {
         const pathname = usePageLocation();
-        const showHeader = isAuthenticated && ['/home', '/build', '/other_builds'].includes(pathname);
+        const showHeader = isAuthenticated && (
+            ['/home', '/build', '/other_builds'].includes(pathname) || pathname.startsWith('/build/')
+        );
         return (
             <div>
                 {showHeader && <HeaderFooter />}
